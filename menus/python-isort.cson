@@ -1,0 +1,16 @@
+'menu': [
+  {
+    'label': 'Packages'
+    'submenu': [
+      {
+        'label': 'Python Isort'
+        'submenu': [
+          {
+            'label': 'Sort Python Imports'
+            'command': 'python-isort:run'
+          }
+        ]
+      }
+    ]
+  }
+]
