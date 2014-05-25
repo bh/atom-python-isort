@@ -1,4 +1,5 @@
 # For more detailed documentation see
 # https://atom.io/docs/latest/advanced/keymaps
 '.editor.python':
-    'ctrl-alt-s': 'python-isort:run'
+    'ctrl-alt-s': 'python-isort:sortImports'
+    'ctrl-alt-c': 'python-isort:checkImports'

@@ -1,7 +1,7 @@
 {
   "name": "python-isort",
-  "main": "./lib/python-isort",
-  "version": "0.1.0",
+  "main": "./lib/index",
+  "version": "0.0.1",
   "description": "Organize Python Imports using Isort",
   "repository": "https://github.com/bh/atom-python-isort",
   "license": "MIT",
@@ -9,6 +9,7 @@
     "atom": ">0.50.0"
   },
   "dependencies": {
-    "byline": "4.1.1"
+    "byline": "4.1.1",
+    "atom-message-panel": "1.0.0"
   }
 }
