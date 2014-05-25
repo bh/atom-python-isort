@@ -14,7 +14,7 @@ module.exports =
       pi.checkImports()
 
     atom.config.observe 'python-isort.sortOnSave', {callNow: true}, (value) ->
-      if value?
+      if value == true
         atom.workspace.eachEditor (editor) ->
           editor.buffer.on "saved", ->
             pi.sortImports()
