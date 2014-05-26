@@ -2,7 +2,7 @@
 
 Uses [Isort](https://github.com/timothycrosley/isort) to organizing Python imports.
 
-![Screenshot](example_sorting.gif)
+![Screenshot](https://raw.githubusercontent.com/bh/atom-python-isort/master/example_sorting.gif)
 
 ### Install
 
