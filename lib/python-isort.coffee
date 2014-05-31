@@ -1,5 +1,4 @@
 process = require 'child_process'
-byline = require 'byline'
 fs = require 'fs'
 
 module.exports =

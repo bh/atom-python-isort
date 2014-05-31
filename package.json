@@ -9,7 +9,5 @@
     "atom": ">0.50.0"
   },
   "dependencies": {
-    "byline": "4.1.1",
-    "atom-message-panel": "1.0.0"
   }
 }
