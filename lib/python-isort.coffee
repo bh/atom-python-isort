@@ -11,6 +11,24 @@ class PythonIsort
     return unless editor.getGrammar().name == 'Python'
     return true
 
+
+  updateStatusbarText: (message, isError) ->
+    if jquery("#python-isort-status").length == 0
+      statusBar = atom.workspaceView.statusBar
+      return unless statusBar?
+      statusBar.appendLeft('<div id="python-isort-status" class="inline-block">
+                              <span style="font-weight: bold">Isort: </span>
+                              <span id="python-isort-status-message"></span>
+                            </div>')
+
+    statusBarElement = jquery("#python-isort-status-message")
+
+    if isError == true
+      statusBarElement.addClass("text-error")
+    else
+      statusBarElement.removeClass("text-error")
+
+    statusBarElement.text(message)
     editor = atom.workspace.getActiveEditor()
     filePath = editor.getPath()
 
@@ -18,10 +36,17 @@ class PythonIsort
     isortpath = atom.config.get "python-isort.isortpath"
 
     if not fs.existsSync(isortpath)
-      # TODO: make this error visible in status line
+      @updateStatusbarText("unable to open " + isortpath, false)
       return
 
     proc = process.spawn isortpath, params
+
+    updateStatusbarText = @updateStatusbarText
+    proc.on 'exit', (exit_code, signal) ->
+      if exit_code == 0
+        updateStatusbarText("√ all python imports are fine", false)
+      else
+        updateStatusbarText("python imports are unsorted", true)
 
   sortImports: ->
     return unless @checkForPythonContext?
@@ -32,9 +57,9 @@ class PythonIsort
     isortpath = atom.config.get "python-isort.isortpath"
 
     if not fs.existsSync(isortpath)
-      # TODO: make this error visible in status line
+      @updateStatusbarText("unable to open " + isortpath, false)
       return
 
     proc = process.spawn isortpath, params
-
+    @updateStatusbarText("√ all python imports are fine", false)
     @reload
