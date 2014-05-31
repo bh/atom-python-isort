@@ -13,9 +13,3 @@ Make sure you have `Isort` installed and the correct path to binary was set in t
 Currently, there are two following commands:
 
 * `python-isort:sortImports` - for sorting imports
-* `python-isort:checkImports` - for checking imports
-
-### Limitations/ToDo
-
-* `checkImports` does not work when "sortOnSave" is enabled
-* no error handling

@@ -11,8 +11,6 @@ class PythonIsort
     return unless editor.getGrammar().name == 'Python'
     return true
 
-  checkImports: ->
-    return unless @checkForPythonContext?
     editor = atom.workspace.getActiveEditor()
     filePath = editor.getPath()
 
