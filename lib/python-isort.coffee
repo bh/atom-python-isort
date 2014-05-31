@@ -9,6 +9,9 @@ class PythonIsort
     editor = atom.workspace.getActiveEditor()
     return editor.getGrammar().name == 'Python'
 
+  removeStatusbarItem: ->
+    if not @checkForPythonContext()
+      jquery("#python-isort-status").remove()
 
   updateStatusbarText: (message, isError) ->
     if jquery("#python-isort-status").length == 0

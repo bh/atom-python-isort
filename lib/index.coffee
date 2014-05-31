@@ -8,6 +8,10 @@ module.exports =
 
   activate: (state) ->
     pi = new PythonIsort()
+
+    atom.workspaceView.command 'pane:active-item-changed', ->
+      pi.removeStatusbarItem()
+
     atom.workspaceView.command 'python-isort:sortImports', ->
       pi.sortImports()
 
