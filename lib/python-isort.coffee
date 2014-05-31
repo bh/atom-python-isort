@@ -36,8 +36,8 @@ class PythonIsort
     return editor.getPath()
 
   checkForUnsortedImports: ->
-    isortpath = atom.config.get "python-isort.isortpath"
     params = [@getFilePath(), "-c", "-vb"]
+    isortpath = atom.config.get "python-isort.isortPath"
 
     if not fs.existsSync(isortpath)
       @updateStatusbarText("unable to open " + isortpath, false)
@@ -57,7 +57,7 @@ class PythonIsort
       return
 
     params = [@getFilePath(), "-vb"]
-    isortpath = atom.config.get "python-isort.isortpath"
+    isortpath = atom.config.get "python-isort.isortPath"
 
     if not fs.existsSync(isortpath)
       @updateStatusbarText("unable to open " + isortpath, false)
