@@ -7,9 +7,7 @@ class PythonIsort
 
   checkForPythonContext: ->
     editor = atom.workspace.getActiveEditor()
-    return unless editor?
-    return unless editor.getGrammar().name == 'Python'
-    return true
+    return editor.getGrammar().name == 'Python'
 
 
   updateStatusbarText: (message, isError) ->
@@ -49,7 +47,8 @@ class PythonIsort
         updateStatusbarText("python imports are unsorted", true)
 
   sortImports: ->
-    return unless @checkForPythonContext?
+    if not @checkForPythonContext
+      return
     editor = atom.workspace.getActiveEditor()
     filePath = editor.getPath()
 
