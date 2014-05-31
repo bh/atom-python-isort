@@ -1,5 +1,6 @@
-process = require 'child_process'
 fs = require 'fs'
+jquery = require('atom').$
+process = require 'child_process'
 
 module.exports =
 class PythonIsort
