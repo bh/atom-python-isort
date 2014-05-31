@@ -27,11 +27,13 @@ class PythonIsort
       statusBarElement.removeClass("text-error")
 
     statusBarElement.text(message)
-    editor = atom.workspace.getActiveEditor()
-    filePath = editor.getPath()
 
-    params = [filePath, "-c"]
+  getFilePath: ->
+    editor = atom.workspace.getActiveEditor()
+    return editor.getPath()
+
     isortpath = atom.config.get "python-isort.isortpath"
+    params = [@getFilePath(), "-c", "-vb"]
 
     if not fs.existsSync(isortpath)
       @updateStatusbarText("unable to open " + isortpath, false)
@@ -49,10 +51,8 @@ class PythonIsort
   sortImports: ->
     if not @checkForPythonContext
       return
-    editor = atom.workspace.getActiveEditor()
-    filePath = editor.getPath()
 
-    params = [filePath, "-vb"]
+    params = [@getFilePath(), "-vb"]
     isortpath = atom.config.get "python-isort.isortpath"
 
     if not fs.existsSync(isortpath)
