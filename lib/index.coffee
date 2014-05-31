@@ -4,6 +4,7 @@ module.exports =
   configDefaults:
     isortpath: "/usr/bin/isort"
     sortOnSave: false
+    checkOnSave: true
 
   activate: (state) ->
     pi = new PythonIsort()
@@ -21,3 +22,12 @@ module.exports =
         else
           editor.buffer.off "saved", ->
             pi.sortImports()
+
+    atom.config.observe 'python-isort.checkOnSave', {callNow: true}, (value) ->
+      atom.workspace.eachEditor (editor) ->
+        if value == true
+          editor.buffer.on "saved", ->
+            pi.checkForUnsortedImports()
+        else
+          editor.buffer.off "saved", ->
+            pi.checkForUnsortedImports()

@@ -32,6 +32,7 @@ class PythonIsort
     editor = atom.workspace.getActiveEditor()
     return editor.getPath()
 
+  checkForUnsortedImports: ->
     isortpath = atom.config.get "python-isort.isortpath"
     params = [@getFilePath(), "-c", "-vb"]
 
