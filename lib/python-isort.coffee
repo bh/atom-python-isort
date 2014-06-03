@@ -7,6 +7,8 @@ class PythonIsort
 
   checkForPythonContext: ->
     editor = atom.workspace.getActiveEditor()
+    if not editor?
+      return false
     return editor.getGrammar().name == 'Python'
 
   removeStatusbarItem: ->
