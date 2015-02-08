@@ -2,7 +2,7 @@ PythonIsort = require './python-isort'
 
 module.exports =
   configDefaults:
-    isortPath: "/usr/bin/isort"
+    isortPath: "isort"
     sortOnSave: false
     checkOnSave: true
 
