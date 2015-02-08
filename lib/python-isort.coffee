@@ -41,7 +41,8 @@ class PythonIsort
     params = [@getFilePath(), "-c", "-vb"]
     isortpath = atom.config.get "python-isort.isortPath"
 
-    if not fs.existsSync(isortpath)
+    which = process.spawnSync('which', ['isort']).status
+    if which == 1 and not fs.existsSync(isortpath)
       @updateStatusbarText("unable to open " + isortpath, false)
       return
 
@@ -61,7 +62,8 @@ class PythonIsort
     params = [@getFilePath(), "-vb"]
     isortpath = atom.config.get "python-isort.isortPath"
 
-    if not fs.existsSync(isortpath)
+    which = process.spawnSync('which', ['isort']).status
+    if which == 1 and not fs.existsSync(isortpath)
       @updateStatusbarText("unable to open " + isortpath, false)
       return
 
