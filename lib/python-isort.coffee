@@ -38,6 +38,9 @@ class PythonIsort
     return editor.getPath()
 
   checkImports: ->
+    if not @checkForPythonContext()
+      return
+
     params = [@getFilePath(), "-c", "-vb"]
     isortpath = atom.config.get "python-isort.isortPath"
 
@@ -56,7 +59,7 @@ class PythonIsort
         updateStatusbarText("python imports are unsorted", true)
 
   sortImports: ->
-    if not @checkForPythonContext
+    if not @checkForPythonContext()
       return
 
     params = [@getFilePath(), "-vb"]
