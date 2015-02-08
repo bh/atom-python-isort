@@ -6,16 +6,16 @@ module.exports =
     sortOnSave: false
     checkOnSave: true
 
-  activate: (state) ->
+  activate: ->
     pi = new PythonIsort()
 
-    atom.workspaceView.command 'pane:active-item-changed', ->
+    atom.commands.add 'atom-workspace', 'pane:active-item-changed', ->
       pi.removeStatusbarItem()
 
-    atom.workspaceView.command 'python-isort:sortImports', ->
+    atom.commands.add 'atom-workspace', 'python-isort:sortImports', =>
       pi.sortImports()
 
-    atom.workspaceView.command 'python-isort:checkImports', ->
+    atom.commands.add 'atom-workspace', 'python-isort:checkImports', =>
       pi.checkImports()
 
     atom.config.observe 'python-isort.sortOnSave', {callNow: true}, (value) ->
