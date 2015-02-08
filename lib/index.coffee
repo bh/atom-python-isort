@@ -31,7 +31,7 @@ module.exports =
       atom.workspace.eachEditor (editor) ->
         if value == true
           editor.buffer.on "saved", ->
-            pi.checkForUnsortedImports()
+            pi.checkImports()
         else
           editor.buffer.off "saved", ->
-            pi.checkForUnsortedImports()
+            pi.checkImports()
