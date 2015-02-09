@@ -9,6 +9,10 @@
             'label': 'Sort Python Imports'
             'command': 'python-isort:sortImports'
           }
+          {
+            'label': 'Check Python Imports'
+            'command': 'python-isort:checkImports'
+          }
         ]
       }
     ]
