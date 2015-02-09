@@ -1,5 +1,5 @@
 fs = require 'fs'
-jquery = require('atom').$
+$ = require('atom').$
 process = require 'child_process'
 
 module.exports =
@@ -11,20 +11,23 @@ class PythonIsort
       return false
     return editor.getGrammar().name == 'Python'
 
-  removeStatusbarItem: ->
-    if not @checkForPythonContext()
-      jquery("#python-isort-status").remove()
+  removeStatusbarItem: =>
+    @statusBarTile?.destroy()
+    @statusBarTile = null
 
-  updateStatusbarText: (message, isError) ->
-    if jquery("#python-isort-status").length == 0
-      statusBar = atom.workspaceView.statusBar
+  updateStatusbarText: (message, isError) =>
+    if not @statusBarTile
+      statusBar = document.querySelector("status-bar")
       return unless statusBar?
-      statusBar.appendLeft('<div id="python-isort-status" class="inline-block">
-                              <span style="font-weight: bold">Isort: </span>
-                              <span id="python-isort-status-message"></span>
-                            </div>')
+      @statusBarTile = statusBar
+        .addLeftTile(
+          item: $('<div id="status-bar-python-isort" class="inline-block">
+                    <span style="font-weight: bold">Isort: </span>
+                    <span id="python-isort-status-message"></span>
+                  </div>'), priority: 100)
 
-    statusBarElement = jquery("#python-isort-status-message")
+    statusBarElement = @statusBarTile.getItem()
+      .find('#python-isort-status-message')
 
     if isError == true
       statusBarElement.addClass("text-error")
@@ -54,9 +57,9 @@ class PythonIsort
     updateStatusbarText = @updateStatusbarText
     proc.on 'exit', (exit_code, signal) ->
       if exit_code == 0
-        updateStatusbarText("√ all python imports are fine", false)
+        updateStatusbarText("√", false)
       else
-        updateStatusbarText("python imports are unsorted", true)
+        updateStatusbarText("x", true)
 
   sortImports: ->
     if not @checkForPythonContext()
@@ -71,5 +74,5 @@ class PythonIsort
       return
 
     proc = process.spawn isortpath, params
-    @updateStatusbarText("√ all python imports are fine", false)
+    @updateStatusbarText("√", false)
     @reload

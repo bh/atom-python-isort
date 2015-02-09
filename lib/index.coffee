@@ -18,20 +18,16 @@ module.exports =
     atom.commands.add 'atom-workspace', 'python-isort:checkImports', ->
       pi.checkImports()
 
-    atom.config.observe 'python-isort.sortOnSave', {callNow: true}, (value) ->
-      atom.workspace.eachEditor (editor) ->
+    atom.config.observe 'python-isort.sortOnSave', (value) ->
+      atom.workspace.observeTextEditors (editor) ->
         if value == true
-          editor.buffer.on "saved", ->
-            pi.sortImports()
+          editor._isortSort = editor.onDidSave -> pi.sortImports()
         else
-          editor.buffer.off "saved", ->
-            pi.sortImports()
+          editor._isortSort?.dispose()
 
-    atom.config.observe 'python-isort.checkOnSave', {callNow: true}, (value) ->
-      atom.workspace.eachEditor (editor) ->
+    atom.config.observe 'python-isort.checkOnSave', (value) ->
+      atom.workspace.observeTextEditors (editor) ->
         if value == true
-          editor.buffer.on "saved", ->
-            pi.checkImports()
+          editor._isortCheck = editor.onDidSave -> pi.checkImports()
         else
-          editor.buffer.off "saved", ->
-            pi.checkImports()
+          editor._isortCheck?.dispose()
