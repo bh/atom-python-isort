@@ -2,36 +2,32 @@ PythonIsort = require './python-isort'
 
 module.exports =
   configDefaults:
-    isortPath: "/usr/bin/isort"
+    isortPath: "isort"
     sortOnSave: false
     checkOnSave: true
 
-  activate: (state) ->
+  activate: ->
     pi = new PythonIsort()
 
-    atom.workspaceView.command 'pane:active-item-changed', ->
+    atom.commands.add 'atom-workspace', 'pane:active-item-changed', ->
       pi.removeStatusbarItem()
 
-    atom.workspaceView.command 'python-isort:sortImports', ->
+    atom.commands.add 'atom-workspace', 'python-isort:sortImports', ->
       pi.sortImports()
 
-    atom.workspaceView.command 'python-isort:checkImports', ->
+    atom.commands.add 'atom-workspace', 'python-isort:checkImports', ->
       pi.checkImports()
 
-    atom.config.observe 'python-isort.sortOnSave', {callNow: true}, (value) ->
-      atom.workspace.eachEditor (editor) ->
+    atom.config.observe 'python-isort.sortOnSave', (value) ->
+      atom.workspace.observeTextEditors (editor) ->
         if value == true
-          editor.buffer.on "saved", ->
-            pi.sortImports()
+          editor._isortSort = editor.onDidSave -> pi.sortImports()
         else
-          editor.buffer.off "saved", ->
-            pi.sortImports()
+          editor._isortSort?.dispose()
 
-    atom.config.observe 'python-isort.checkOnSave', {callNow: true}, (value) ->
-      atom.workspace.eachEditor (editor) ->
+    atom.config.observe 'python-isort.checkOnSave', (value) ->
+      atom.workspace.observeTextEditors (editor) ->
         if value == true
-          editor.buffer.on "saved", ->
-            pi.checkForUnsortedImports()
+          editor._isortCheck = editor.onDidSave -> pi.checkImports()
         else
-          editor.buffer.off "saved", ->
-            pi.checkForUnsortedImports()
+          editor._isortCheck?.dispose()
