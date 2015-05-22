@@ -1,12 +1,12 @@
 fs = require 'fs'
-$ = require('atom').$
+$ = require 'jquery'
 process = require 'child_process'
 
 module.exports =
 class PythonIsort
 
   checkForPythonContext: ->
-    editor = atom.workspace.getActiveEditor()
+    editor = atom.workspace.getActiveTextEditor()
     if not editor?
       return false
     return editor.getGrammar().name == 'Python'
@@ -37,7 +37,7 @@ class PythonIsort
     statusBarElement.text(message)
 
   getFilePath: ->
-    editor = atom.workspace.getActiveEditor()
+    editor = atom.workspace.getActiveTextEditor()
     return editor.getPath()
 
   checkImports: ->

@@ -6,7 +6,9 @@
   "repository": "https://github.com/bh/atom-python-isort",
   "license": "MIT",
   "engines": {
-    "atom": ">0.50.0"
+    "atom": ">=0.185.0 <2.0.0"
   },
-  "dependencies": {}
+  "dependencies": {
+    "jquery": "^2.1.4"
+  }
 }
