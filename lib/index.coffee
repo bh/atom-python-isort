@@ -1,10 +1,16 @@
 PythonIsort = require './python-isort'
 
 module.exports =
-  configDefaults:
-    isortPath: "isort"
-    sortOnSave: false
-    checkOnSave: true
+  config:
+    isortPath:
+      type: 'string'
+      default: 'isort'
+    sortOnSave:
+      type: 'boolean'
+      default: false
+    checkOnSave:
+      type: 'boolean'
+      default: true
 
   activate: ->
     pi = new PythonIsort()
