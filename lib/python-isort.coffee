@@ -1,4 +1,3 @@
-fs = require 'fs'
 $ = require 'jquery'
 process = require 'child_process'
 
@@ -40,39 +39,24 @@ class PythonIsort
     editor = atom.workspace.getActiveTextEditor()
     return editor.getPath()
 
-  checkImports: ->
+  sortImports: (options)->
+    options ?= {}
+    options.write_file ?= true
+
     if not @checkForPythonContext()
       return
 
-    params = [@getFilePath(), "-c", "-vb"]
-    isortpath = atom.config.get "python-isort.isortPath"
-
-    which = process.spawnSync('which', ['isort']).status
-    if which == 1 and not fs.existsSync(isortpath)
-      @updateStatusbarText("unable to open " + isortpath, false)
-      return
-
-    proc = process.spawn isortpath, params
-
-    updateStatusbarText = @updateStatusbarText
-    proc.on 'exit', (exit_code, signal) ->
-      if exit_code == 0
-        updateStatusbarText("√", false)
-      else
-        updateStatusbarText("x", true)
-
-  sortImports: ->
-    if not @checkForPythonContext()
-      return
-
+    cmd = atom.config.get "python-isort.isortPath"
     params = [@getFilePath(), "-vb"]
-    isortpath = atom.config.get "python-isort.isortPath"
+    if not options.write_file
+      params.push('-c')
 
-    which = process.spawnSync('which', ['isort']).status
-    if which == 1 and not fs.existsSync(isortpath)
-      @updateStatusbarText("unable to open " + isortpath, false)
+    returnCode = process.spawnSync(cmd, params).status
+    if returnCode != 0
+      @updateStatusbarText("x", true)
       return
+    else
+      @updateStatusbarText("√", false)
 
-    proc = process.spawn isortpath, params
-    @updateStatusbarText("√", false)
-    @reload
+    if options.write_file
+      @reload
