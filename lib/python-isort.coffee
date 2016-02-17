@@ -1,4 +1,4 @@
-fs = require 'fs'
+fs = require 'fs-plus'
 $ = require 'jquery'
 process = require 'child_process'
 
@@ -45,7 +45,7 @@ class PythonIsort
       return
 
     params = ["-ns", @getFilePath(), @getFilePath(), "-c", "-vb"]
-    isortpath = atom.config.get "python-isort.isortPath"
+    isortpath = fs.normalize(atom.config.get "python-isort.isortPath")
 
     which = process.spawnSync('which', ['isort']).status
     if which == 1 and not fs.existsSync(isortpath)
@@ -66,7 +66,7 @@ class PythonIsort
       return
 
     params = ["-ns", @getFilePath(), @getFilePath(), "-vb"]
-    isortpath = atom.config.get "python-isort.isortPath"
+    isortpath = fs.normalize(atom.config.get "python-isort.isortPath")
 
     which = process.spawnSync('which', ['isort']).status
     if which == 1 and not fs.existsSync(isortpath)
