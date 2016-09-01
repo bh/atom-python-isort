@@ -5,6 +5,8 @@ module.exports =
     isortPath:
       type: 'string'
       default: 'isort'
+      description: 'Use `$PROJECT` or `$PROJECT_NAME` substitutions for project specific paths ' +
+        'e.g. `$PROJECT_NAME/.venv/bin/isort`'
     sortOnSave:
       type: 'boolean'
       default: false
