@@ -40,6 +40,18 @@ class PythonIsort
     editor = atom.workspace.getActiveTextEditor()
     return editor.getPath()
 
+  getProjDir: (file) ->
+    atom.project.relativizePath(file)[0]
+
+  getProjName: (projDir) ->
+    path.basename(projDir)
+
+  applySubstitutions: (execPath, projDir) ->
+    projectName = @getProjName(projDir)
+    execPath = execPath.replace(/\$PROJECT_NAME/i, projectName)
+    execPath = execPath.replace(/\$PROJECT/i, projDir)
+    return execPath
+
   checkImports: ->
     if not @checkForPythonContext()
       return
@@ -65,8 +77,12 @@ class PythonIsort
     if not @checkForPythonContext()
       return
 
-    params = [@getFilePath(), "-vb"]
-    isortpath = atom.config.get "python-isort.isortPath"
+    filePath = @getFilePath()
+    projDir = @getProjDir(filePath) or path.dirname(filePath)
+    execPath = atom.config.get "python-isort.isortPath"
+
+    params = [filePath, "-vb"]
+    isortpath = @applySubstitutions execPath, projDir
 
     which = process.spawnSync('which', ['isort']).status
     if which == 1 and not fs.existsSync(isortpath)
