@@ -9,7 +9,7 @@ class PythonIsort
     editor = atom.workspace.getActiveTextEditor()
     if not editor?
       return false
-    return editor.getGrammar().name == 'Python'
+    return editor.getGrammar().scopeName == 'source.python'
 
   removeStatusbarItem: =>
     @statusBarTile?.destroy()
@@ -44,7 +44,7 @@ class PythonIsort
     if not @checkForPythonContext()
       return
 
-    params = [@getFilePath(), "-c", "-vb"]
+    params = ["-ns", @getFilePath(), @getFilePath(), "-c", "-vb"]
     isortpath = atom.config.get "python-isort.isortPath"
 
     which = process.spawnSync('which', ['isort']).status
@@ -65,7 +65,7 @@ class PythonIsort
     if not @checkForPythonContext()
       return
 
-    params = [@getFilePath(), "-vb"]
+    params = ["-ns", @getFilePath(), @getFilePath(), "-vb"]
     isortpath = atom.config.get "python-isort.isortPath"
 
     which = process.spawnSync('which', ['isort']).status
