@@ -6,10 +6,9 @@ module.exports =
 class PythonIsort
 
   checkForPythonContext: ->
-    editor = atom.workspace.getActiveTextEditor()
-    if not editor?
-      return false
-    return editor.getGrammar().scopeName == 'source.python'
+    grammar = atom.workspace.getActiveTextEditor()?.getGrammar?()
+    if grammar? and ~grammar.name.indexOf('Python')
+        return true
 
   removeStatusbarItem: =>
     @statusBarTile?.destroy()
